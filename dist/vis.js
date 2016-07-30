@@ -20936,6 +20936,9 @@ return /******/ (function(modules) { // webpackBootstrap
           if ('axis' in options.orientation) {
             this.options.orientation.axis = options.orientation.axis;
           }
+          if ('axisGroupId' in options.orientation) {
+            this.options.orientation.axisGroupId = options.orientation.axisGroupId;
+          }
         }
       }
 
@@ -21867,6 +21870,7 @@ return /******/ (function(modules) { // webpackBootstrap
    * @extends Component
    */
   function ItemSet(body, options) {
+
     this.body = body;
     this.defaultOptions = {
       type: null, // 'box', 'point', 'range', 'background'
@@ -22179,8 +22183,9 @@ return /******/ (function(modules) { // webpackBootstrap
       if ('orientation' in options) {
         if (typeof options.orientation === 'string') {
           this.options.orientation.item = options.orientation === 'top' ? 'top' : 'bottom';
-        } else if ((0, _typeof3['default'])(options.orientation) === 'object' && 'item' in options.orientation) {
-          this.options.orientation.item = options.orientation.item;
+        } else if ((0, _typeof3['default'])(options.orientation) === 'object') {
+          if ('item' in options.orientation) this.options.orientation.item = options.orientation.item;
+          if ('axisGroupId' in options.orientation) this.options.orientation.axisGroupId = options.orientation.axisGroupId;
         }
       }
 
@@ -22485,7 +22490,7 @@ return /******/ (function(modules) { // webpackBootstrap
     this.props.height = height;
 
     // reposition axis
-    var axisGroupId = 0;
+    var axisGroupId = this.options.orientation.axisGroupId;
     if (axisGroupId != undefined) {
       var group = this.groups[axisGroupId];
       if (group) {
@@ -27053,7 +27058,9 @@ return /******/ (function(modules) { // webpackBootstrap
     var box = this.dom.box;
     var line = this.dom.line;
     var dot = this.dom.dot;
-    var axisGroupId = 0;
+    var axisGroupId = this.options.orientation.axisGroupId;
+
+    console.log(axisGroupId);
 
     if (orientation == 'top') {
 
@@ -28805,6 +28812,7 @@ return /******/ (function(modules) { // webpackBootstrap
     orientation: {
       axis: { string: string, 'undefined': 'undefined' },
       item: { string: string, 'undefined': 'undefined' },
+      axisGroupId: { number: number, 'undefined': 'undefined' },
       __type__: { string: string, object: object }
     },
     selectable: { 'boolean': bool },
