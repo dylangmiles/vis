@@ -27060,8 +27060,6 @@ return /******/ (function(modules) { // webpackBootstrap
     var dot = this.dom.dot;
     var axisGroupId = this.options.orientation.axisGroupId;
 
-    console.log(axisGroupId);
-
     if (orientation == 'top') {
 
       if (axisGroupId != undefined) {
