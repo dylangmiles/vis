@@ -11,22 +11,15 @@
       font-family: sans-serif;
     }
 
-    .vis-item .vis-item-overflow {
-      overflow: visible;
-    }
   </style>
 
   <script src="../../googleAnalytics.js"></script>
 </head>
 <body>
 <p>
-  In case of ranges being spread over a wide range of time, it can be interesting to have the text contents of the ranges overflow the box. This can be achieved by changing the overflow property of the contents to visible with css:
+  An item can be offset to the left or right using the offset property.
 </p>
-<pre>
-.vis-item .vis-item-overflow {
-  overflow: visible;
-}
-</pre>
+
 
 <div id="visualization"></div>
 
@@ -36,12 +29,10 @@
 
   // Create a DataSet (allows two way data-binding)
   var items = new vis.DataSet([
-    {id: 1, content: 'item 1 with overflowing text content', start: '2014-04-20', end: '2014-04-26'},
-    {id: 2, content: 'item 2 with overflowing text content', start: '2014-05-14', end: '2014-05-18'},
-    {id: 3, content: 'item 3 with overflowing text content', start: '2014-06-18', end: '2014-06-22'},
-    {id: 4, content: 'item 4 with overflowing text content', start: '2014-06-16', end: '2014-06-17'},
-    {id: 5, content: 'item 5 with overflowing text content', start: '2014-06-25', end: '2014-06-27'},
-    {id: 6, content: 'item 6 with overflowing text content', start: '2014-09-27', end: '2014-09-28'}
+    {id: 1, content: 'Range without Offset', start: '2014-04-20', end: '2014-04-26'},
+    {id: 2, content: 'Range 30px left', start: '2014-04-20', end: '2014-04-26', offset: -30},
+    {id: 3, content: 'Range 30px right', start: '2014-04-20', end: '2014-04-26', offset: 30},
+    {id: 4, content: 'Range 30px left', start: '2014-04-20', end: '2014-04-26', offset: '-30px'},      
   ]);
 
   // Configuration for the Timeline

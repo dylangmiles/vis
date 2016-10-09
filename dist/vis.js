@@ -25917,6 +25917,9 @@ return /******/ (function(modules) { // webpackBootstrap
       if (data.end == undefined) {
         throw new Error('Property "end" missing in item ' + data.id);
       }
+      if (data.offset == undefined) {
+        data.offset = 0;
+      }
     }
 
     Item.call(this, data, conversion, options);
@@ -26090,9 +26093,9 @@ return /******/ (function(modules) { // webpackBootstrap
       //       So no re-stacking needed, which is nicer for the eye;
     } else {
       if (this.options.rtl) {
-        this.right = start;
+        this.right = start + parseInt(this.data.offset);
       } else {
-        this.left = start;
+        this.left = start + parseInt(this.data.offset);
       }
       this.width = boxWidth;
       contentWidth = Math.min(end - start, this.props.content.width);
@@ -26822,6 +26825,10 @@ return /******/ (function(modules) { // webpackBootstrap
       line: {
         width: 0,
         height: 0
+      },
+      shadowline: {
+        width: 0,
+        height: 0
       }
     };
     this.options = options;
@@ -26885,6 +26892,10 @@ return /******/ (function(modules) { // webpackBootstrap
       dom.dot = document.createElement('DIV');
       dom.dot.className = 'vis-dot';
 
+      // shadowline to indicate alignment with line to axis on the grid
+      dom.shadowline = document.createElement('DIV');
+      dom.shadowline.className = 'vis-shadowline';
+
       // attach this item as attribute
       dom.box['timeline-item'] = this;
 
@@ -26904,6 +26915,11 @@ return /******/ (function(modules) { // webpackBootstrap
       var background = this.parent.dom.background;
       if (!background) throw new Error('Cannot redraw item: parent has no background container element');
       background.appendChild(dom.line);
+    }
+    if (!dom.shadowline.parentNode) {
+      var background = this.parent.dom.background;
+      if (!background) throw new Error('Cannot redraw item: parent has no background container element');
+      background.appendChild(dom.shadowline);
     }
     if (!dom.dot.parentNode) {
       var axis = this.parent.dom.axis;
@@ -26928,6 +26944,7 @@ return /******/ (function(modules) { // webpackBootstrap
       var className = (this.data.className ? ' ' + this.data.className : '') + (this.selected ? ' vis-selected' : '') + (editable ? ' vis-editable' : ' vis-readonly');
       dom.box.className = 'vis-item vis-box' + className;
       dom.line.className = 'vis-item vis-line' + className;
+      dom.shadowline.className = 'vis-item vis-shadowline' + className;
       dom.dot.className = 'vis-item vis-dot' + className;
 
       // set initial position in the visible range of the grid so that the
@@ -26945,6 +26962,7 @@ return /******/ (function(modules) { // webpackBootstrap
       this.props.dot.height = dom.dot.offsetHeight;
       this.props.dot.width = dom.dot.offsetWidth;
       this.props.line.width = dom.line.offsetWidth;
+      this.props.shadowline.width = dom.shadowline.offsetWidth;
       this.width = dom.box.offsetWidth;
       this.height = dom.box.offsetHeight;
 
@@ -26983,6 +27001,7 @@ return /******/ (function(modules) { // webpackBootstrap
       if (dom.box.parentNode) dom.box.parentNode.removeChild(dom.box);
       if (dom.line.parentNode) dom.line.parentNode.removeChild(dom.line);
       if (dom.dot.parentNode) dom.dot.parentNode.removeChild(dom.dot);
+      if (dom.shadowline.parentNode) dom.shadowline.parentNode.removeChild(dom.shadowline);
 
       this.displayed = false;
     }
@@ -27004,6 +27023,7 @@ return /******/ (function(modules) { // webpackBootstrap
         // reposition box, line, and dot
         this.dom.box.style.right = this.right + 'px';
         this.dom.line.style.right = start - this.props.line.width + 'px';
+        this.dom.shadowline.style.right = start - this.props.shadowline.width + 'px';
         this.dom.dot.style.right = start - this.props.line.width / 2 - this.props.dot.width / 2 + 'px';
       } else {
         this.left = start - this.width;
@@ -27011,6 +27031,7 @@ return /******/ (function(modules) { // webpackBootstrap
         // reposition box, line, and dot
         this.dom.box.style.left = this.left + 'px';
         this.dom.line.style.left = start - this.props.line.width + 'px';
+        this.dom.shadowline.style.left = start - this.props.shadowline.width + 'px';
         this.dom.dot.style.left = start - this.props.line.width / 2 - this.props.dot.width / 2 + 'px';
       }
     } else if (align == 'left') {
@@ -27020,13 +27041,14 @@ return /******/ (function(modules) { // webpackBootstrap
         // reposition box, line, and dot
         this.dom.box.style.right = this.right + 'px';
         this.dom.line.style.right = start + 'px';
+        this.dom.shadowline.style.right = start + 'px';
         this.dom.dot.style.right = start + this.props.line.width / 2 - this.props.dot.width / 2 + 'px';
       } else {
         this.left = start;
 
         // reposition box, line, and dot
         this.dom.box.style.left = this.left + 'px';
-        this.dom.line.style.left = start + 'px';
+        this.dom.shadowline.style.left = start + 'px';
         this.dom.dot.style.left = start + this.props.line.width / 2 - this.props.dot.width / 2 + 'px';
       }
     } else {
@@ -27037,6 +27059,7 @@ return /******/ (function(modules) { // webpackBootstrap
         // reposition box, line, and dot
         this.dom.box.style.right = this.right + 'px';
         this.dom.line.style.right = start - this.props.line.width + 'px';
+        this.dom.shadowline.style.right = start - this.props.shadowline.width + 'px';
         this.dom.dot.style.right = start - this.props.dot.width / 2 + 'px';
       } else {
         this.left = start - this.width / 2;
@@ -27044,6 +27067,7 @@ return /******/ (function(modules) { // webpackBootstrap
         // reposition box, line, and dot
         this.dom.box.style.left = this.left + 'px';
         this.dom.line.style.left = start - this.props.line.width / 2 + 'px';
+        this.dom.shadowline.style.left = start - this.props.shadowline.width / 2 + 'px';
         this.dom.dot.style.left = start - this.props.dot.width / 2 + 'px';
       }
     }
@@ -27057,6 +27081,7 @@ return /******/ (function(modules) { // webpackBootstrap
     var orientation = this.options.orientation.item;
     var box = this.dom.box;
     var line = this.dom.line;
+    var shadowline = this.dom.shadowline;
     var dot = this.dom.dot;
     var axisGroupId = this.options.orientation.axisGroupId;
 
@@ -27074,6 +27099,11 @@ return /******/ (function(modules) { // webpackBootstrap
           line.style.top = this.top + this.parent.top + this.height + 'px';
           line.style.height = group.top - (this.top + this.parent.top + this.height) + 'px';
           line.style.bottom = '';
+
+          var itemSetHeight = this.parent.itemSet.props.height; // TODO: this is nasty
+          shadowline.style.top = group.top + group.height + 'px';
+          shadowline.style.height = itemSetHeight - group.top - group.height + 'px';
+          shadowline.style.bottom = '';
         } else {
           line.style.top = group.top + 'px';
           line.style.height = this.parent.top + this.top + 1 - group.top + 'px';
