@@ -26146,11 +26146,13 @@ return /******/ (function(modules) { // webpackBootstrap
             contentStartPosition = -contentWidth; // ensure it's not visible anymore
           }
         } else {
-          if (start < 0) {
-            contentStartPosition = -start;
-          } else {
-            contentStartPosition = 0;
-          }
+          contentStartPosition = 0;
+          //if (start < 0) {
+          //  contentStartPosition = -start;
+          //}
+          //else {
+          //  contentStartPosition = 0;
+          //}
         }
         if (this.options.rtl) {
           this.dom.content.style.right = contentStartPosition + 'px';
