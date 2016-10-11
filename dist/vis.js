@@ -26076,8 +26076,9 @@ return /******/ (function(modules) { // webpackBootstrap
       }
     }
 
+    var addWidth = this.data.addWidth == undefined ? 0 : parseInt(this.data.addWidth);
     // add 0.5 to compensate floating-point values rounding
-    var boxWidth = Math.max(end - start + 0.5, 1);
+    var boxWidth = Math.max(end - start + 0.5, 1) + addWidth;
 
     if (this.overflow) {
       if (this.options.rtl) {
@@ -26097,6 +26098,7 @@ return /******/ (function(modules) { // webpackBootstrap
       } else {
         this.left = start + parseInt(this.data.offset);
       }
+
       this.width = boxWidth;
       contentWidth = Math.min(end - start, this.props.content.width);
     }

@@ -30,9 +30,9 @@
   // Create a DataSet (allows two way data-binding)
   var items = new vis.DataSet([
     {id: 1, content: 'Range without Offset', start: '2014-04-20', end: '2014-04-26'},
-    {id: 2, content: 'Range 30px left', start: '2014-04-20', end: '2014-04-26', offset: -30},
+    {id: 2, content: 'Range 30 left and add width of 30', start: '2014-04-20', end: '2014-04-26', offset: -30, addWidth: 30},
     {id: 3, content: 'Range 30px right', start: '2014-04-20', end: '2014-04-26', offset: 30},
-    {id: 4, content: 'Range 30px left', start: '2014-04-20', end: '2014-04-26', offset: '-30px'},      
+    {id: 4, content: 'Range 30px left and add width of 30px', start: '2014-04-20', end: '2014-04-26', offset: '-30px', addWidth: '30px'},      
   ]);
 
   // Configuration for the Timeline
